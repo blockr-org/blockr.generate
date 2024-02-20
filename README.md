@@ -3,6 +3,8 @@
 
 # blockr.generate
 
+:warning: This is a very basic draft for proof of concept.
+
 Generate blockr code
 
 ## Installation
