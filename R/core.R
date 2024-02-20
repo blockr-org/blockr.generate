@@ -47,6 +47,7 @@ make_expression <- function(fn, args){
 #' @param default_input Default block input type.
 #' @param default_output Default block output type.
 #' @param ignore_args Arguments to omit from fields.
+#' @param class Additional class to pass to block.
 #' @param ... Named list of special fields for each function.
 #' 
 #' @export
@@ -56,6 +57,7 @@ generate_blocks <- function(
   default_input = "data.frame",
   default_output = "data.frame",
   ignore_args = c(),
+  class = NULL,
   ...
 ){
   default_type <- match.arg(default_type)
@@ -78,7 +80,9 @@ generate_blocks <- function(
       # we remove arguments that default to NULL
       # because we don't have the ability to infer their type
       # and because we cannot set a field to NULL
-      args <- args[sapply(args, \(x) !is.null(x))]
+      if(length(args)){
+        args <- args[sapply(args, \(x) !is.null(x))]
+      }
 
       # function calls, we cannot set a field to a function
       if(length(args))
