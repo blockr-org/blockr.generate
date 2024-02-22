@@ -9,8 +9,8 @@ generate_blocks(
   default_type = c("transform", "data", "plot"),
   default_input = "data.frame",
   default_output = "data.frame",
-  ignore_args = c(),
-  ...
+  class = NULL,
+  config = define()
 )
 }
 \arguments{
@@ -22,7 +22,7 @@ generate_blocks(
 
 \item{default_output}{Default block output type.}
 
-\item{ignore_args}{Arguments to omit from fields.}
+\item{class}{Additional class to pass to block.}
 
 \item{...}{Named list of special fields for each function.}
 }
