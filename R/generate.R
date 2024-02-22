@@ -7,7 +7,7 @@
 #' @param default_input Default block input type.
 #' @param default_output Default block output type.
 #' @param class Additional class to pass to block.
-#' @param ... Named list of special fields for each function.
+#' @param config,all_args Configuration for blocks.
 #' 
 #' @export
 generate_blocks <- function(
@@ -16,7 +16,8 @@ generate_blocks <- function(
   default_input = "data.frame",
   default_output = "data.frame",
   class = NULL,
-  config = define()
+  config = define(),
+  all_args = define()
 ){
   default_type <- match.arg(default_type)
 
@@ -30,6 +31,7 @@ generate_blocks <- function(
         fn, 
         package, 
         config, 
+        all_args,
         default_type, 
         default_input, 
         default_output

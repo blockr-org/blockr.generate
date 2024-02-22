@@ -2,6 +2,7 @@ make_function <- function(
   fn, 
   package, 
   config,
+  all_args,
   default_type = "transform", 
   default_input = "data.frame", 
   default_output = "data.frame"
@@ -39,7 +40,7 @@ make_function <- function(
 
   fields <- args |>
     lapply(argument_to_field) |>
-    handle_fields(def)
+    handle_fields(def, all_args)
 
   if(length(fields))
     fields <- paste0(names(fields), ' = ', fields, collapse = ',\n      ')
@@ -62,7 +63,7 @@ make_function <- function(
     fn,
     fn,
     package,
-    make_expression(fn, args, def),
+    make_expression(fn, args, def, all_args),
     fields,
     fn,
     default_type

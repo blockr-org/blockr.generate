@@ -28,26 +28,3 @@ should_ignore.default <- function(x) FALSE
 should_ignore.definition <- function(x){
   attr(x, "ignore")
 }
-
-handle_fields <- function(fields, function_definition){
-  nms <- names(fields)
-
-  fields <- lapply(nms, \(nm) {
-    arg_def <- get_definition(function_definition, nm)
-
-    if(should_ignore(arg_def))
-      return(NULL)
-
-    if(!length(arg_def))
-      return(fields[[nm]])
-
-    arg_def 
-  })
-
-  names(fields) <- nms
-
-  if(!length(fields))
-    return(c())
-
-  fields[sapply(fields, length) > 0L]
-}
