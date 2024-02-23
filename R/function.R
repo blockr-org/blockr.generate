@@ -44,7 +44,7 @@ make_function <- function(
   else
     fields <- ""
 
-  classes <- make_class(fn, config, def)
+  classes <- make_class(fn, all_args, def)
 
   code <- sprintf(
 "new_%s_block <- function(data, ...){
