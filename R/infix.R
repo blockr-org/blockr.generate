@@ -1,5 +1,5 @@
 `%||%` <- function(lhs, rhs){
-  if(!length(lhs))
+  if(is.null(lhs))
     return(rhs)
 
   lhs
