@@ -85,6 +85,38 @@ make_function <- function(
 
   block <- paste0(code, "\n\n", init)
 
+  render_function <- get_render_function(def) %||% get_render_function(all_args)
+  if(length(render_function)){
+    renderer <- sprintf(
+"#' @export
+server_output.%s_block <- %s",
+      fn,
+      deparse1(render_function)
+    )
+
+    block <- paste0(
+      block,
+      "\n\n",
+      renderer
+    )
+  }
+
+  output_function <- get_output_function(def) %||% get_output_function(all_args)
+  if(length(output_function)){
+    out <- sprintf(
+"#' @export
+uiOutputBlock.%s_block <- %s",
+      fn,
+      deparse1(output_function)
+    )
+
+    block <- paste0(
+      block,
+      "\n\n",
+      out 
+    )
+  }
+
   register <- sprintf(
   "
   blockr::register_block(

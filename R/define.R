@@ -12,7 +12,9 @@ define <- function(
   input = NULL, 
   output = NULL,
   type = NULL,
-  classes = NULL
+  classes = NULL,
+  output_function = NULL,
+  render_function = NULL
 ){
   structure(
     list(...),
@@ -21,6 +23,8 @@ define <- function(
     output = output,
     type = type,
     classes = classes,
+    output_function = output_function,
+    render_function = render_function,
     class = "definition"
   )
 }
@@ -73,6 +77,20 @@ get_class <- function(x) UseMethod("get_class")
 #' @export
 get_class.definition <- function(x){
   get_attr(x, "classes")
+}
+
+get_render_function <- function(x) UseMethod("get_render_function")
+
+#' @export
+get_render_function.definition <- function(x){
+  get_attr(x, "render_function")
+}
+
+get_output_function <- function(x) UseMethod("get_output_function")
+
+#' @export
+get_output_function.definition <- function(x){
+  get_attr(x, "output_function")
 }
 
 get_attr <- function(x, attr) UseMethod("get_attr")

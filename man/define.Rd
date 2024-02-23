@@ -4,7 +4,16 @@
 \alias{define}
 \title{Define}
 \usage{
-define(..., ignore = FALSE, input = NULL, output = NULL, type = NULL)
+define(
+  ...,
+  ignore = FALSE,
+  input = NULL,
+  output = NULL,
+  type = NULL,
+  classes = NULL,
+  output_function = NULL,
+  render_function = NULL
+)
 }
 \arguments{
 \item{...}{Named arguments to define.}
