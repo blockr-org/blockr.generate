@@ -6,26 +6,21 @@
 \usage{
 generate_blocks(
   package,
-  default_type = c("transform", "data", "plot"),
-  default_input = "data.frame",
-  default_output = "data.frame",
   class = NULL,
-  config = define(),
-  all_args = define()
+  functions = define(),
+  all_functions = define()
 )
 }
 \arguments{
 \item{package}{Name of package.}
 
-\item{default_type}{Default block type.}
+\item{class}{Additional class to pass to block.}
+
+\item{functions, all_functions}{Functions to define.}
 
 \item{default_input}{Default block input type.}
 
 \item{default_output}{Default block output type.}
-
-\item{class}{Additional class to pass to block.}
-
-\item{config, all_args}{Configuration for blocks.}
 }
 \description{
 Generate block code from package in \verb{R/} directory.

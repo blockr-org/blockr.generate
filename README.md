@@ -26,8 +26,8 @@ generate_blocks(
     default_input = "data.frame",
     default_output = "plot",
     default_type = "plot",
-    all_args = define(
-        data = define(ignore = TRUE)
+    all_functions = define(
+        data = define(ignore = TRUE) # all functions will ignore the data argument (no field)
     )
 )
 ```

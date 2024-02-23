@@ -1,11 +1,8 @@
 make_function <- function(
   fn, 
   package, 
-  config,
-  all_args,
-  default_type = "transform", 
-  default_input = "data.frame", 
-  default_output = "data.frame"
+  config = define(),
+  all_args = define()
 ){
   obj <- get(fn)
 
@@ -18,7 +15,7 @@ make_function <- function(
   if(!inherits(obj, "function"))
     return(default)
 
-  def <- get_definition(config, fn)
+  def <- get_definition(config, fn) %||% define()
 
   if(should_ignore(def))
     return(default)
@@ -47,6 +44,8 @@ make_function <- function(
   else
     fields <- ""
 
+  classes <- make_class(fn, config, def)
+
   code <- sprintf(
 "new_%s_block <- function(data, ...){
   blockr::new_block(
@@ -57,7 +56,7 @@ make_function <- function(
     fields = list(
       %s
     ),
-    class = c(\"%s_block\", \"%s_block\")
+    class = %s
   )
 }",
     fn,
@@ -65,8 +64,7 @@ make_function <- function(
     package,
     make_expression(fn, args, def, all_args),
     fields,
-    fn,
-    default_type
+    classes
   )
 
   init <- sprintf(
@@ -75,7 +73,7 @@ make_function <- function(
 }", fn, fn
   )
 
-  if(default_type == "data"){
+  if("data" %in% c(get_type(def), get_type(config))){
     init <- sprintf(
 "%s_block <- function(...){
   blockr::initialize_block(new_%s_block(...))
@@ -86,22 +84,23 @@ make_function <- function(
   }
 
   block <- paste0(code, "\n\n", init)
-  
+
   register <- sprintf(
-"blockr::register_block(
-  %s_block,
-  \"%s\",
-  \"A block\",
-  input = \"%s\",
-  output = \"%s\",
-  classes = c(\"%s_block\", \"data_block\"),
-  package = pkgname
-)",
+  "
+  blockr::register_block(
+    %s_block,
+    \"%s\",
+    \"A block\",
+    input = \"%s\",
+    output = \"%s\",
+    package = pkgname,
+    classes = %s
+  )",
     fn,
     fn,
-    default_input,
-    default_output,
-    fn
+    get_input(def) %||% get_input(all_args),
+    get_output(def) %||% get_output(all_args),
+    classes
   )
 
   list(

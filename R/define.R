@@ -6,10 +6,21 @@
 #' @param ignore Whether to ignore the arguments from fields and function call.
 #' 
 #' @export
-define <- function(..., ignore = FALSE){
+define <- function(
+  ..., 
+  ignore = FALSE, 
+  input = NULL, 
+  output = NULL,
+  type = NULL,
+  classes = NULL
+){
   structure(
     list(...),
     ignore = ignore,
+    input = input,
+    output = output,
+    type = type,
+    classes = classes,
     class = "definition"
   )
 }
@@ -34,6 +45,41 @@ should_ignore.default <- function(x) FALSE
 #' @export
 should_ignore.definition <- function(x){
   attr(x, "ignore")
+}
+
+get_input <- function(x) UseMethod("get_input")
+
+#' @export
+get_input.definition <- function(x){
+  get_attr(x, "input")
+}
+
+get_output <- function(x) UseMethod("get_output")
+
+#' @export
+get_output.definition <- function(x){
+  get_attr(x, "output")
+}
+
+get_type <- function(x) UseMethod("get_type")
+
+#' @export
+get_type.definition <- function(x){
+  get_attr(x, "type")
+}
+
+get_class <- function(x) UseMethod("get_class")
+
+#' @export
+get_class.definition <- function(x){
+  get_attr(x, "classes")
+}
+
+get_attr <- function(x, attr) UseMethod("get_attr")
+
+#' @export
+get_attr.definition <- function(x, attr){
+  attr(x, attr)
 }
 
 handle_fields <- function(fields, function_definition, all_args){
