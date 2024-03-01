@@ -14,6 +14,7 @@ define(
   output_function = NULL,
   render_function = NULL,
   evaluate_function = NULL,
+  block_combiner = NULL,
   generate_server_function = NULL
 )
 }
@@ -21,6 +22,22 @@ define(
 \item{...}{Named arguments to define.}
 
 \item{ignore}{Whether to ignore the arguments from fields and function call.}
+
+\item{input, output}{Object accepted as I/O.}
+
+\item{type}{Block type, used for inheritance.}
+
+\item{classes}{Additional classes.}
+
+\item{output_function}{Function to generate output method.}
+
+\item{render_function}{Function to generate render method.}
+
+\item{evaluate_function}{Function to generate evaluate method.}
+
+\item{block_combiner}{Function to combine blocks.}
+
+\item{generate_server_function}{Function to generate server function.}
 }
 \description{
 Define a function or argument for processing.

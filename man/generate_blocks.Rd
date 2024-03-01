@@ -6,6 +6,7 @@
 \usage{
 generate_blocks(
   package,
+  filter_functions = identity,
   class = NULL,
   functions = define(),
   all_functions = define()
@@ -14,13 +15,12 @@ generate_blocks(
 \arguments{
 \item{package}{Name of package.}
 
+\item{filter_functions}{callback that filters functions,
+it must accept a character vector and return a character vector.}
+
 \item{class}{Additional class to pass to block.}
 
 \item{functions, all_functions}{Functions to define.}
-
-\item{default_input}{Default block input type.}
-
-\item{default_output}{Default block output type.}
 }
 \description{
 Generate block code from package in \verb{R/} directory.

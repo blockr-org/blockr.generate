@@ -3,14 +3,15 @@
 #' Generate block code from package in `R/` directory.
 #' 
 #' @param package Name of package.
-#' @param default_input Default block input type.
-#' @param default_output Default block output type.
 #' @param class Additional class to pass to block.
 #' @param functions,all_functions Functions to define.
+#' @param filter_functions callback that filters functions,
+#'  it must accept a character vector and return a character vector.
 #' 
 #' @export
 generate_blocks <- function(
   package,
+  filter_functions = identity,
   class = NULL,
   functions = define(),
   all_functions = define()
@@ -19,6 +20,7 @@ generate_blocks <- function(
   library(package, character.only = TRUE)
   fns <- ls(sprintf("package:%s", package), all.names = TRUE)
   fns <- fns[!grepl("^%", fns)] # remove infixes
+  fns <- filter_functions(fns)
 
   code <- fns |> 
     lapply(\(fn){

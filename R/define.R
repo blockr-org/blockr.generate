@@ -4,6 +4,14 @@
 #' 
 #' @param ... Named arguments to define.
 #' @param ignore Whether to ignore the arguments from fields and function call.
+#' @param input,output Object accepted as I/O.
+#' @param type Block type, used for inheritance.
+#' @param classes Additional classes.
+#' @param output_function Function to generate output method.
+#' @param render_function Function to generate render method.
+#' @param evaluate_function Function to generate evaluate method.
+#' @param block_combiner Function to combine blocks.
+#' @param generate_server_function Function to generate server function.
 #' 
 #' @export
 define <- function(
