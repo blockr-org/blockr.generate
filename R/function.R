@@ -40,14 +40,14 @@ make_function <- function(
     handle_fields(def, all_args)
 
   if(length(fields))
-    fields <- paste0(names(fields), ' = ', fields, collapse = ',\n      ')
+    fields <- paste0(names(fields), " = ", fields, collapse = ",\n      ")
   else
     fields <- ""
 
   classes <- make_class(fn, all_args, def)
 
   code <- sprintf(
-"new_%s_block <- function(data, ...){
+    "new_%s_block <- function(data, ...){
   blockr::new_block(
     name = \"%s_block\",
     expr = quote({
@@ -68,14 +68,14 @@ make_function <- function(
   )
 
   init <- sprintf(
-"%s_block <- function(data, ...){
+    "%s_block <- function(data, ...){
   blockr::initialize_block(new_%s_block(data, ...), data)
 }", fn, fn
   )
 
   if("data" %in% c(get_type(def), get_type(config))){
     init <- sprintf(
-"%s_block <- function(...){
+      "%s_block <- function(...){
   blockr::initialize_block(new_%s_block(...))
 }", 
       fn, 
@@ -88,10 +88,12 @@ make_function <- function(
   render_function <- get_render_function(def) %||% get_render_function(all_args)
   if(length(render_function)){
     renderer <- sprintf(
-"#' @export
+      "#' @method server_output %s_block
+#' @export
 server_output.%s_block <- %s",
       fn,
-      deparse1(render_function)
+      fn,
+      deparse_(render_function)
     )
 
     block <- paste0(
@@ -104,10 +106,48 @@ server_output.%s_block <- %s",
   output_function <- get_output_function(def) %||% get_output_function(all_args)
   if(length(output_function)){
     out <- sprintf(
-"#' @export
+      "#' @method uiOutputBlock %s_block
+#' @export
 uiOutputBlock.%s_block <- %s",
       fn,
-      deparse1(output_function)
+      fn,
+      deparse_(output_function)
+    )
+
+    block <- paste0(
+      block,
+      "\n\n",
+      out 
+    )
+  }
+  
+  evaluate_function <- get_evaluate_function(def) %||% get_evaluate_function(all_args)
+  if(length(evaluate_function)){
+    out <- sprintf(
+      "#' @method evaluate_block %s_block
+#' @export
+evaluate_block.%s_block <- %s",
+      fn,
+      fn,
+      deparse_(evaluate_function)
+    )
+
+    block <- paste0(
+      block,
+      "\n\n",
+      out 
+    )
+  }
+
+  generate_server_function <- get_generate_server_function(def) %||% get_generate_server_function(all_args)
+  if(length(generate_server_function)){
+    out <- sprintf(
+      "#' @method generate_server %s_block
+#' @export
+generate_server.%s_block <- %s",
+      fn,
+      fn,
+      deparse_(generate_server_function)
     )
 
     block <- paste0(
@@ -118,7 +158,7 @@ uiOutputBlock.%s_block <- %s",
   }
 
   register <- sprintf(
-  "
+    "
   blockr::register_block(
     %s_block,
     \"%s\",

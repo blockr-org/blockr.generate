@@ -12,7 +12,9 @@ define(
   type = NULL,
   classes = NULL,
   output_function = NULL,
-  render_function = NULL
+  render_function = NULL,
+  evaluate_function = NULL,
+  generate_server_function = NULL
 )
 }
 \arguments{

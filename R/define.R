@@ -14,10 +14,12 @@ define <- function(
   type = NULL,
   classes = NULL,
   output_function = NULL,
-  render_function = NULL
+  render_function = NULL,
+  evaluate_function = NULL,
+  generate_server_function = NULL
 ){
   structure(
-    list(...),
+    rlang::enquos(...),
     ignore = ignore,
     input = input,
     output = output,
@@ -25,6 +27,8 @@ define <- function(
     classes = classes,
     output_function = output_function,
     render_function = render_function,
+    evaluate_function = evaluate_function,
+    generate_server_function = generate_server_function,
     class = "definition"
   )
 }
@@ -38,7 +42,12 @@ get_definition.default <- function(x, name){
 
 #' @export
 get_definition.definition <- function(x, name){
-  x[[name]]
+  def <- x[[name]]
+
+  if(rlang::is_quosure(def) && grepl("define\\(", rlang::quo_text(def)))
+    def <- rlang::eval_tidy(def)
+
+  def
 }
 
 should_ignore <- function(x) UseMethod("should_ignore")
@@ -58,11 +67,21 @@ get_input.definition <- function(x){
   get_attr(x, "input")
 }
 
+#' @export
+get_input.quosure <- function(x){
+  x |> rlang::quo_text()
+}
+
 get_output <- function(x) UseMethod("get_output")
 
 #' @export
 get_output.definition <- function(x){
   get_attr(x, "output")
+}
+
+#' @export
+get_output.quosure <- function(x){
+  x |> rlang::quo_text()
 }
 
 get_type <- function(x) UseMethod("get_type")
@@ -72,11 +91,21 @@ get_type.definition <- function(x){
   get_attr(x, "type")
 }
 
+#' @export
+get_type.default <- function(x){
+  NULL
+}
+
 get_class <- function(x) UseMethod("get_class")
 
 #' @export
 get_class.definition <- function(x){
   get_attr(x, "classes")
+}
+
+#' @export
+get_class.default <- function(x){
+  NULL
 }
 
 get_render_function <- function(x) UseMethod("get_render_function")
@@ -86,6 +115,11 @@ get_render_function.definition <- function(x){
   get_attr(x, "render_function")
 }
 
+#' @export
+get_render_function.quosure <- function(x){
+  x
+}
+
 get_output_function <- function(x) UseMethod("get_output_function")
 
 #' @export
@@ -93,40 +127,38 @@ get_output_function.definition <- function(x){
   get_attr(x, "output_function")
 }
 
+#' @export
+get_output_function.quosure <- function(x){
+  x
+}
+
+get_evaluate_function <- function(x) UseMethod("get_evaluate_function")
+
+#' @export
+get_evaluate_function.definition <- function(x){
+  get_attr(x, "evaluate_function")
+}
+
+#' @export
+get_evaluate_function.quosure <- function(x){
+  x
+}
+
+get_generate_server_function <- function(x) UseMethod("get_generate_server_function")
+
+#' @export
+get_generate_server_function.definition <- function(x){
+  get_attr(x, "generate_server_function")
+}
+
+#' @export
+get_generate_server_function.quosure <- function(x){
+  x
+}
+
 get_attr <- function(x, attr) UseMethod("get_attr")
 
 #' @export
 get_attr.definition <- function(x, attr){
   attr(x, attr)
-}
-
-handle_fields <- function(fields, function_definition, all_args){
-  nms <- names(fields)
-
-  fields <- lapply(nms, \(nm) {
-    arg_def <- get_definition(function_definition, nm)
-
-    if(should_ignore(arg_def))
-      return(NULL)
-
-    if(length(arg_def))
-      return(arg_def)
-
-    arg_def <- get_definition(all_args, nm)
-
-    if(should_ignore(arg_def))
-      return(NULL)
-
-    if(length(arg_def))
-      return(arg_def)
-
-    fields[[nm]]
-  })
-
-  names(fields) <- nms
-
-  if(!length(fields))
-    return(c())
-
-  fields[sapply(fields, length) > 0L]
 }
