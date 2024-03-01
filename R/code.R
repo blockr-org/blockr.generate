@@ -1,4 +1,4 @@
-make_function <- function(
+make_code <- function(
   fn, 
   package, 
   config = define(),

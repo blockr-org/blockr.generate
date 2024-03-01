@@ -22,7 +22,7 @@ generate_blocks <- function(
 
   code <- fns |> 
     lapply(\(fn){
-      make_function(
+      make_code(
         fn, 
         package, 
         functions, 
