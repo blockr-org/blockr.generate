@@ -16,6 +16,7 @@ define <- function(
   output_function = NULL,
   render_function = NULL,
   evaluate_function = NULL,
+  block_combiner = NULL,
   generate_server_function = NULL
 ){
   structure(
@@ -29,6 +30,7 @@ define <- function(
     render_function = render_function,
     evaluate_function = evaluate_function,
     generate_server_function = generate_server_function,
+    block_combiner = block_combiner,
     class = "definition"
   )
 }
@@ -153,6 +155,18 @@ get_generate_server_function.definition <- function(x){
 
 #' @export
 get_generate_server_function.quosure <- function(x){
+  x
+}
+
+get_block_combiner <- function(x) UseMethod("get_block_combiner")
+
+#' @export
+get_block_combiner.definition <- function(x){
+  get_attr(x, "block_combiner")
+}
+
+#' @export
+get_block_combiner.quosure <- function(x){
   x
 }
 

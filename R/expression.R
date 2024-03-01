@@ -12,6 +12,9 @@ make_expression <- function(fn, args, function_definition, all_args){
 
       if(should_ignore(arg_def)) return(NULL)
 
+      if(is.null(args[[arg]]) && !length(arg_def))
+        return(NULL)
+
       arg
     })
 

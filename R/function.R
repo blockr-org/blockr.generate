@@ -21,19 +21,9 @@ make_function <- function(
     return(default)
 
   args <- formals(obj)
+
   # maybe just assign dynamic fields instead of discarding them?
   args <- args[names(args) != "..."]
-
-  # we remove arguments that default to NULL
-  # because we don't have the ability to infer their type
-  # and because we cannot set a field to NULL
-  if(length(args)){
-    args <- args[sapply(args, Negate(is.null))]
-  }
-
-  # function calls, we cannot set a field to a function
-  if(length(args))
-    args <- args[sapply(args, \(x) !inherits(x, "call"))]
 
   fields <- args |>
     lapply(argument_to_field) |>
@@ -44,15 +34,19 @@ make_function <- function(
   else
     fields <- ""
 
+  # function calls, we cannot set a field to a function
+  if(length(args))
+    args <- args[sapply(args, \(x) !inherits(x, "call"))]
+
   classes <- make_class(fn, all_args, def)
 
   code <- sprintf(
     "new_%s_block <- function(data, ...){
   blockr::new_block(
     name = \"%s_block\",
-    expr = quote({
+    expr = quote(
       %s::%s
-    }),
+    ),
     fields = list(
       %s
     ),
@@ -148,6 +142,24 @@ generate_server.%s_block <- %s",
       fn,
       fn,
       deparse_(generate_server_function)
+    )
+
+    block <- paste0(
+      block,
+      "\n\n",
+      out 
+    )
+  }
+
+  block_combiner <- get_block_combiner(def) %||% get_block_combiner(all_args)
+  if(length(block_combiner)){
+    out <- sprintf(
+      "#' @method block_combiner %s_block
+#' @export
+block_combiner.%s_block <- %s",
+      fn,
+      fn,
+      deparse_(block_combiner)
     )
 
     block <- paste0(

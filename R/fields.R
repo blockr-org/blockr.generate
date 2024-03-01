@@ -25,6 +25,9 @@ argument_to_field <- function(x){ # nolint
     )
   }
 
+  if(is.null(x))
+    return(NULL)
+
   "blockr::new_string_field()"
 }
 
