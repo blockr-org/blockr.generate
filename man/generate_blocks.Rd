@@ -2,10 +2,28 @@
 % Please edit documentation in R/generate.R
 \name{generate_blocks}
 \alias{generate_blocks}
+\alias{generate_block.function}
+\alias{generate_block.character}
 \title{Generate Blocks}
 \usage{
 generate_blocks(
   package,
+  filter_functions = identity,
+  class = NULL,
+  functions = define(),
+  all_functions = define()
+)
+
+\method{generate_block}{`function`}(
+  fn,
+  filter_functions = identity,
+  class = NULL,
+  functions = define(),
+  all_functions = define()
+)
+
+\method{generate_block}{character}(
+  fn,
   filter_functions = identity,
   class = NULL,
   functions = define(),
@@ -21,6 +39,8 @@ it must accept a character vector and return a character vector.}
 \item{class}{Additional class to pass to block.}
 
 \item{functions, all_functions}{Functions to define.}
+
+\item{fn}{Function to create a block for.}
 }
 \description{
 Generate block code from package in \verb{R/} directory.

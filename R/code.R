@@ -1,6 +1,6 @@
 make_code <- function(
   fn, 
-  package, 
+  package = NULL, 
   config = define(),
   all_args = define()
 ){
@@ -40,12 +40,16 @@ make_code <- function(
 
   classes <- make_class(fn, all_args, def)
 
+  expr <- make_expression(fn, args, def, all_args)
+  if(length(package) > 0L)
+    expr <- paste0(package, "::", expr)
+
   code <- sprintf(
     "new_%s_block <- function(data, ...){
   blockr::new_block(
     name = \"%s_block\",
     expr = quote(
-      %s::%s
+      %s
     ),
     fields = list(
       %s
@@ -55,8 +59,7 @@ make_code <- function(
 }",
     fn,
     fn,
-    package,
-    make_expression(fn, args, def, all_args),
+    expr,
     fields,
     classes
   )
@@ -82,10 +85,8 @@ make_code <- function(
   render_function <- get_render_function(def) %||% get_render_function(all_args)
   if(length(render_function)){
     renderer <- sprintf(
-      "#' @method server_output %s_block
-#' @export
+      "#' @export
 server_output.%s_block <- %s",
-      fn,
       fn,
       deparse_(render_function)
     )
@@ -100,10 +101,8 @@ server_output.%s_block <- %s",
   output_function <- get_output_function(def) %||% get_output_function(all_args)
   if(length(output_function)){
     out <- sprintf(
-      "#' @method uiOutputBlock %s_block
-#' @export
+      "#' @export
 uiOutputBlock.%s_block <- %s",
-      fn,
       fn,
       deparse_(output_function)
     )
@@ -118,10 +117,8 @@ uiOutputBlock.%s_block <- %s",
   evaluate_function <- get_evaluate_function(def) %||% get_evaluate_function(all_args)
   if(length(evaluate_function)){
     out <- sprintf(
-      "#' @method evaluate_block %s_block
-#' @export
+      "#' @export
 evaluate_block.%s_block <- %s",
-      fn,
       fn,
       deparse_(evaluate_function)
     )
@@ -136,10 +133,8 @@ evaluate_block.%s_block <- %s",
   generate_server_function <- get_generate_server_function(def) %||% get_generate_server_function(all_args)
   if(length(generate_server_function)){
     out <- sprintf(
-      "#' @method generate_server %s_block
-#' @export
+      "#' @export
 generate_server.%s_block <- %s",
-      fn,
       fn,
       deparse_(generate_server_function)
     )
@@ -154,10 +149,8 @@ generate_server.%s_block <- %s",
   block_combiner <- get_block_combiner(def) %||% get_block_combiner(all_args)
   if(length(block_combiner)){
     out <- sprintf(
-      "#' @method block_combiner %s_block
-#' @export
+      "#' @export
 block_combiner.%s_block <- %s",
-      fn,
       fn,
       deparse_(block_combiner)
     )

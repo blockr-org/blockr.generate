@@ -3,10 +3,13 @@
 #' Generate block code from package in `R/` directory.
 #' 
 #' @param package Name of package.
+#' @param fn Function to create a block for.
 #' @param class Additional class to pass to block.
 #' @param functions,all_functions Functions to define.
 #' @param filter_functions callback that filters functions,
 #'  it must accept a character vector and return a character vector.
+#' 
+#' @name generate_blocks
 #' 
 #' @export
 generate_blocks <- function(
@@ -46,4 +49,48 @@ generate_blocks <- function(
   zzz <- paste0(".onLoad <- function(libname, pkgname){\n", zzz, "\n}")
   writeLines(zzz, "R/zzz.R")
   invisible()
+}
+
+generate_block <- function(
+  fn,
+  filter_functions = identity,
+  class = NULL,
+  functions = define(),
+  all_functions = define()
+){
+  UseMethod("generate_block", fn)
+}
+
+#' @rdname generate_blocks
+#' @export
+generate_block.function <- function(
+  fn,
+  filter_functions = identity,
+  class = NULL,
+  functions = define(),
+  all_functions = define()
+){
+  fn <- deparse(substitute(fn))
+
+  make_code(
+    fn, 
+    config = functions, 
+    all_args = all_functions
+  )
+}
+
+#' @rdname generate_blocks
+#' @export
+generate_block.character <- function(
+  fn,
+  filter_functions = identity,
+  class = NULL,
+  functions = define(),
+  all_functions = define()
+){
+  make_code(
+    fn, 
+    config = functions, 
+    all_args = all_functions
+  )
 }
