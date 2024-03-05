@@ -2,12 +2,21 @@
 % Please edit documentation in R/generate.R
 \name{generate_blocks}
 \alias{generate_blocks}
+\alias{generate_block}
 \alias{generate_block.function}
 \alias{generate_block.character}
 \title{Generate Blocks}
 \usage{
 generate_blocks(
   package,
+  filter_functions = identity,
+  class = NULL,
+  functions = define(),
+  all_functions = define()
+)
+
+generate_block(
+  fn,
   filter_functions = identity,
   class = NULL,
   functions = define(),

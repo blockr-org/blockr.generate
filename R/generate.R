@@ -51,6 +51,8 @@ generate_blocks <- function(
   invisible()
 }
 
+#' @rdname generate_blocks
+#' @export
 generate_block <- function(
   fn,
   filter_functions = identity,
