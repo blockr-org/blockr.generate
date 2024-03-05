@@ -82,7 +82,7 @@ generate_block.function <- function(
 
   writeLines(code$block, sprintf("R/%s_block.R", code$fn))
 
-  zzz <- paste0(zzz$register, collapse = "\n")
+  zzz <- paste0(code$register, collapse = "\n")
   zzz <- paste0(".onLoad <- function(libname, pkgname){\n", zzz, "\n}")
   writeLines(zzz, "R/zzz.R")
   invisible(code)
@@ -105,7 +105,7 @@ generate_block.character <- function(
   
   writeLines(code$block, sprintf("R/%s_block.R", code$fn))
 
-  zzz <- paste0(zzz$register, collapse = "\n")
+  zzz <- paste0(code$register, collapse = "\n")
   zzz <- paste0(".onLoad <- function(libname, pkgname){\n", zzz, "\n}")
   writeLines(zzz, "R/zzz.R")
   invisible(code)
