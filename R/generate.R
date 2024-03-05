@@ -74,11 +74,26 @@ generate_block.function <- function(
 ){
   fn <- deparse(substitute(fn))
 
-  make_code(
+  code <- make_code(
     fn, 
     config = functions, 
     all_args = all_functions
   )
+
+  code |>
+    lapply(\(code) {
+      if(code$fn == "") return()
+
+      writeLines(code$block, sprintf("R/%s_block.R", code$fn))
+    })
+
+  zzz <- code |>
+    sapply(\(code) code$register)
+
+  zzz <- paste0(zzz, collapse = "\n")
+  zzz <- paste0(".onLoad <- function(libname, pkgname){\n", zzz, "\n}")
+  writeLines(zzz, "R/zzz.R")
+  invisible()
 }
 
 #' @rdname generate_blocks
@@ -90,9 +105,24 @@ generate_block.character <- function(
   functions = define(),
   all_functions = define()
 ){
-  make_code(
+  code <- make_code(
     fn, 
     config = functions, 
     all_args = all_functions
   )
+
+  code |>
+    lapply(\(code) {
+      if(code$fn == "") return()
+
+      writeLines(code$block, sprintf("R/%s_block.R", code$fn))
+    })
+
+  zzz <- code |>
+    sapply(\(code) code$register)
+
+  zzz <- paste0(zzz, collapse = "\n")
+  zzz <- paste0(".onLoad <- function(libname, pkgname){\n", zzz, "\n}")
+  writeLines(zzz, "R/zzz.R")
+  invisible()
 }
