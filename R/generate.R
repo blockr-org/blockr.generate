@@ -48,7 +48,7 @@ generate_blocks <- function(
   zzz <- paste0(zzz, collapse = "\n")
   zzz <- paste0(".onLoad <- function(libname, pkgname){\n", zzz, "\n}")
   writeLines(zzz, "R/zzz.R")
-  invisible()
+  invisible(code)
 }
 
 #' @rdname generate_blocks
@@ -80,20 +80,12 @@ generate_block.function <- function(
     all_args = all_functions
   )
 
-  code |>
-    lapply(\(code) {
-      if(code$fn == "") return()
+  writeLines(code$block, sprintf("R/%s_block.R", code$fn))
 
-      writeLines(code$block, sprintf("R/%s_block.R", code$fn))
-    })
-
-  zzz <- code |>
-    sapply(\(code) code$register)
-
-  zzz <- paste0(zzz, collapse = "\n")
+  zzz <- paste0(zzz$register, collapse = "\n")
   zzz <- paste0(".onLoad <- function(libname, pkgname){\n", zzz, "\n}")
   writeLines(zzz, "R/zzz.R")
-  invisible()
+  invisible(code)
 }
 
 #' @rdname generate_blocks
@@ -110,19 +102,11 @@ generate_block.character <- function(
     config = functions, 
     all_args = all_functions
   )
+  
+  writeLines(code$block, sprintf("R/%s_block.R", code$fn))
 
-  code |>
-    lapply(\(code) {
-      if(code$fn == "") return()
-
-      writeLines(code$block, sprintf("R/%s_block.R", code$fn))
-    })
-
-  zzz <- code |>
-    sapply(\(code) code$register)
-
-  zzz <- paste0(zzz, collapse = "\n")
+  zzz <- paste0(zzz$register, collapse = "\n")
   zzz <- paste0(".onLoad <- function(libname, pkgname){\n", zzz, "\n}")
   writeLines(zzz, "R/zzz.R")
-  invisible()
+  invisible(code)
 }
