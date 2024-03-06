@@ -85,8 +85,10 @@ make_code <- function(
   render_function <- get_render_function(def) %||% get_render_function(all_args)
   if(length(render_function)){
     renderer <- sprintf(
-      "#' @export
+      "#' @method server_output %s_block
+#' @export
 server_output.%s_block <- %s",
+      fn,
       fn,
       deparse_(render_function)
     )
@@ -101,8 +103,10 @@ server_output.%s_block <- %s",
   output_function <- get_output_function(def) %||% get_output_function(all_args)
   if(length(output_function)){
     out <- sprintf(
-      "#' @export
+      "#' @method uiOutputBlock %s_block
+#' @export
 uiOutputBlock.%s_block <- %s",
+      fn,
       fn,
       deparse_(output_function)
     )
@@ -117,8 +121,10 @@ uiOutputBlock.%s_block <- %s",
   evaluate_function <- get_evaluate_function(def) %||% get_evaluate_function(all_args)
   if(length(evaluate_function)){
     out <- sprintf(
-      "#' @export
+      "#' @method evaluate_block %s_block
+#' @export
 evaluate_block.%s_block <- %s",
+      fn,
       fn,
       deparse_(evaluate_function)
     )
@@ -133,8 +139,10 @@ evaluate_block.%s_block <- %s",
   generate_server_function <- get_generate_server_function(def) %||% get_generate_server_function(all_args)
   if(length(generate_server_function)){
     out <- sprintf(
-      "#' @export
+      "#' @method generate_server %s_block
+#' @export
 generate_server.%s_block <- %s",
+      fn,
       fn,
       deparse_(generate_server_function)
     )
@@ -149,8 +157,10 @@ generate_server.%s_block <- %s",
   block_combiner <- get_block_combiner(def) %||% get_block_combiner(all_args)
   if(length(block_combiner)){
     out <- sprintf(
-      "#' @export
+      "#' @method block_combiner %s_block
+#' @export
 block_combiner.%s_block <- %s",
+      fn,
       fn,
       deparse_(block_combiner)
     )
