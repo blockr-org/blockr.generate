@@ -45,7 +45,8 @@ make_code <- function(
     expr <- paste0(package, "::", expr)
 
   code <- sprintf(
-    "new_%s_block <- function(data, ...){
+    "#' @import blockr
+new_%s_block <- function(data, ...){
   blockr::new_block(
     name = \"%s_block\",
     expr = quote(
@@ -65,9 +66,12 @@ make_code <- function(
   )
 
   init <- sprintf(
-    "%s_block <- function(data, ...){
+    "#' @export
+%s_block <- function(data, ...){
   blockr::initialize_block(new_%s_block(data, ...), data)
-}", fn, fn
+}", 
+    fn, 
+    fn
   )
 
   if("data" %in% c(get_type(def), get_type(config))){
