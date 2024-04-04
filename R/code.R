@@ -1,3 +1,4 @@
+#' @keywords internal
 make_code <- function(
   fn, 
   package = NULL, 

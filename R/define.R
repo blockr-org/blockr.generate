@@ -12,6 +12,7 @@
 #' @param evaluate_function Function to generate evaluate method.
 #' @param block_combiner Function to combine blocks.
 #' @param generate_server_function Function to generate server function.
+#' @param title,description Title and description of field.
 #' 
 #' @export
 define <- function(

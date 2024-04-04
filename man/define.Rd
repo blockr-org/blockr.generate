@@ -29,6 +29,8 @@ define(
 
 \item{type}{Block type, used for inheritance.}
 
+\item{title, description}{Title and description of field.}
+
 \item{classes}{Additional classes.}
 
 \item{output_function}{Function to generate output method.}
