@@ -1,34 +1,63 @@
-argument_to_field <- function(x){ # nolint
-  l <- length(x) 
+argument_to_field <- function(fields, function_definition, all_args){ # nolint
+  nms <- names(fields)
 
-  if(inherits(x, "character") || inherits(x, "factor") && l > 1){
-    return(
-      sprintf("blockr::new_string_field(\"%s\")", x)
-    )
-  }
+  i <- 1L
+  fields |>
+    lapply(\(x){
+      l <- length(x) 
 
-  if(inherits(x, "numeric") && l > 1){
-    return(
-      sprintf("blockr::new_numeric_field(%s, min = %s, max = %s)", x, min(x), max(x))
-    )
-  }
+      fn_def <- get_definition(function_definition, nms[i])
+      arg_def <- get_definition(all_args, nms[i])
+      def <- fn_def %||% arg_def
+      i <<- i + 1L
 
-  if(inherits(x, "logical")){
-    return(
-      sprintf("blockr::new_switch_field(%s)", x)
-    )
-  }
+      title <- get_title(def)
+      desc <- get_description(def)
 
-  if(is.numeric(x)){
-    return(
-      sprintf("blockr::new_numeric_field(%s, -1000, 1000)", x)
-    )
-  }
+      if(inherits(x, "character") || inherits(x, "factor") && l > 1){
+        return(
+          sprintf(
+            "blockr::new_string_field(\"%s\", title = \"%s\", description = \"%s\")", 
+            x, title = title, description = desc
+          )
+        )
+      }
 
-  if(is.null(x))
-    return(NULL)
+      if(inherits(x, "numeric") && l > 1){
+        return(
+          sprintf(
+            "blockr::new_numeric_field(%s, min = %s, max = %s, title = \"%s\", description = \"%s\")", 
+            x, min(x), max(x), title = title, description = desc
+          )
+        )
+      }
 
-  "blockr::new_string_field()"
+      if(inherits(x, "logical")){
+        return(
+          sprintf(
+            "blockr::new_switch_field(%s, title = \"%s\", description = \"%s\")", 
+            x, title = title, description = desc
+          )
+        )
+      }
+
+      if(is.numeric(x)){
+        return(
+          sprintf(
+            "blockr::new_numeric_field(%s, -1000, 1000, title = \"%s\", description = \"%s\")", 
+            x, title = title, description = desc
+          )
+        )
+      }
+
+      if(is.null(x))
+        return(NULL)
+
+      sprintf(
+        "blockr::new_string_field(title = \"%s\", description = \"%s\")", 
+        title = title, description = desc
+      )
+    })
 }
 
 handle_fields <- function(fields, function_definition, all_args){
@@ -41,7 +70,7 @@ handle_fields <- function(fields, function_definition, all_args){
       return(NULL)
 
     if(length(arg_def))
-      return(arg_def)
+      return(deparse_(arg_def))
 
     arg_def <- get_definition(all_args, nm)
 

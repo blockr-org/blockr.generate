@@ -4,7 +4,6 @@
 #' 
 #' @param package Name of package.
 #' @param fn Function to create a block for.
-#' @param class Additional class to pass to block.
 #' @param functions,all_functions Functions to define.
 #' @param filter_functions callback that filters functions,
 #'  it must accept a character vector and return a character vector.
@@ -15,7 +14,6 @@
 generate_blocks <- function(
   package,
   filter_functions = identity,
-  class = NULL,
   functions = define(),
   all_functions = define()
 ){
@@ -56,7 +54,6 @@ generate_blocks <- function(
 generate_block <- function(
   fn,
   filter_functions = identity,
-  class = NULL,
   functions = define(),
   all_functions = define()
 ){
@@ -68,7 +65,6 @@ generate_block <- function(
 generate_block.function <- function(
   fn,
   filter_functions = identity,
-  class = NULL,
   functions = define(),
   all_functions = define()
 ){
@@ -93,7 +89,6 @@ generate_block.function <- function(
 generate_block.character <- function(
   fn,
   filter_functions = identity,
-  class = NULL,
   functions = define(),
   all_functions = define()
 ){

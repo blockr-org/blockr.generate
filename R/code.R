@@ -26,7 +26,7 @@ make_code <- function(
   args <- args[names(args) != "..."]
 
   fields <- args |>
-    lapply(argument_to_field) |>
+    argument_to_field(def, all_args) |>
     handle_fields(def, all_args)
 
   if(length(fields))

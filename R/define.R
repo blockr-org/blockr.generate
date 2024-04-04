@@ -20,6 +20,8 @@ define <- function(
   input = NULL, 
   output = NULL,
   type = NULL,
+  title = NULL,
+  description = NULL,
   classes = NULL,
   output_function = NULL,
   render_function = NULL,
@@ -183,4 +185,28 @@ get_attr <- function(x, attr) UseMethod("get_attr")
 #' @export
 get_attr.definition <- function(x, attr){
   attr(x, attr)
+}
+
+get_title <- function(x) UseMethod("get_title")
+
+#' @export
+get_title.definition <- function(x){
+  get_attr(x, "title")
+}
+
+#' @export
+get_title.default <- function(x){
+  ""
+}
+
+get_description <- function(x) UseMethod("get_description")
+
+#' @export
+get_description.definition <- function(x){
+  get_attr(x, "description")
+}
+
+#' @export
+get_description.default <- function(x){
+  ""
 }

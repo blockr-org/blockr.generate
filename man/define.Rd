@@ -10,6 +10,8 @@ define(
   input = NULL,
   output = NULL,
   type = NULL,
+  title = NULL,
+  description = NULL,
   classes = NULL,
   output_function = NULL,
   render_function = NULL,

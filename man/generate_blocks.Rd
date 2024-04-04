@@ -10,7 +10,6 @@
 generate_blocks(
   package,
   filter_functions = identity,
-  class = NULL,
   functions = define(),
   all_functions = define()
 )
@@ -18,7 +17,6 @@ generate_blocks(
 generate_block(
   fn,
   filter_functions = identity,
-  class = NULL,
   functions = define(),
   all_functions = define()
 )
@@ -26,7 +24,6 @@ generate_block(
 \method{generate_block}{`function`}(
   fn,
   filter_functions = identity,
-  class = NULL,
   functions = define(),
   all_functions = define()
 )
@@ -34,7 +31,6 @@ generate_block(
 \method{generate_block}{character}(
   fn,
   filter_functions = identity,
-  class = NULL,
   functions = define(),
   all_functions = define()
 )
@@ -44,8 +40,6 @@ generate_block(
 
 \item{filter_functions}{callback that filters functions,
 it must accept a character vector and return a character vector.}
-
-\item{class}{Additional class to pass to block.}
 
 \item{functions, all_functions}{Functions to define.}
 
