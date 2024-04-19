@@ -11,6 +11,7 @@ define(
   output = NULL,
   type = NULL,
   title = NULL,
+  name = NULL,
   description = NULL,
   classes = NULL,
   output_function = NULL,
@@ -30,6 +31,8 @@ define(
 \item{type}{Block type, used for inheritance.}
 
 \item{title, description}{Title and description of field.}
+
+\item{name}{Name in of the block in the registry.}
 
 \item{classes}{Additional classes.}
 

@@ -1,4 +1,3 @@
-#' @keywords internal
 make_code <- function(
   fn, 
   package = NULL, 
@@ -189,7 +188,7 @@ block_combiner.%s_block <- %s",
     classes = %s
   )",
     fn,
-    fn,
+    get_name(def) %||% fn,
     get_input(def) %||% get_input(all_args),
     get_output(def) %||% get_output(all_args),
     classes

@@ -6,6 +6,7 @@
 #' @param ignore Whether to ignore the arguments from fields and function call.
 #' @param input,output Object accepted as I/O.
 #' @param type Block type, used for inheritance.
+#' @param name Name in of the block in the registry.
 #' @param classes Additional classes.
 #' @param output_function Function to generate output method.
 #' @param render_function Function to generate render method.
@@ -22,6 +23,7 @@ define <- function(
   output = NULL,
   type = NULL,
   title = NULL,
+  name = NULL,
   description = NULL,
   classes = NULL,
   output_function = NULL,
@@ -36,6 +38,7 @@ define <- function(
     input = input,
     output = output,
     type = type,
+    name = name,
     classes = classes,
     output_function = output_function,
     render_function = render_function,
@@ -82,6 +85,18 @@ get_input.definition <- function(x){
 
 #' @export
 get_input.quosure <- function(x){
+  x |> rlang::quo_text()
+}
+
+get_name <- function(x) UseMethod("get_name")
+
+#' @export
+get_name.definition <- function(x){
+  get_attr(x, "input")
+}
+
+#' @export
+get_name.quosure <- function(x){
   x |> rlang::quo_text()
 }
 

@@ -17,7 +17,6 @@ generate_blocks <- function(
   functions = define(),
   all_functions = define()
 ){
-
   library(package, character.only = TRUE)
   fns <- ls(sprintf("package:%s", package), all.names = TRUE)
   fns <- fns[!grepl("^%", fns)] # remove infixes
