@@ -105,7 +105,7 @@ get_registry_name.quosure <- function(x){
 get_registry_description <- function(x) UseMethod("get_registry_description")
 
 #' @export
-get_registry_name.definition <- function(x){
+get_registry_description.definition <- function(x){
   get_attr(x, "registry_description")
 }
 
