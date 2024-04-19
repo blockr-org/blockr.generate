@@ -181,14 +181,15 @@ block_combiner.%s_block <- %s",
   blockr::register_block(
     %s_block,
     \"%s\",
-    \"A block\",
+    \"%s\",
     input = \"%s\",
     output = \"%s\",
     package = pkgname,
     classes = %s
   )",
     fn,
-    get_name(def) %||% fn,
+    get_registry_name(def) %||% fn,
+    get_registry_description(def) %||% "A block",
     get_input(def) %||% get_input(all_args),
     get_output(def) %||% get_output(all_args),
     classes

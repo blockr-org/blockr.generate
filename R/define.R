@@ -6,7 +6,7 @@
 #' @param ignore Whether to ignore the arguments from fields and function call.
 #' @param input,output Object accepted as I/O.
 #' @param type Block type, used for inheritance.
-#' @param name Name in of the block in the registry.
+#' @param registry_name,registry_description Name and description in of the block in the registry.
 #' @param classes Additional classes.
 #' @param output_function Function to generate output method.
 #' @param render_function Function to generate render method.
@@ -23,7 +23,8 @@ define <- function(
   output = NULL,
   type = NULL,
   title = NULL,
-  name = NULL,
+  registry_name = NULL,
+  registry_description = NULL,
   description = NULL,
   classes = NULL,
   output_function = NULL,
@@ -38,7 +39,8 @@ define <- function(
     input = input,
     output = output,
     type = type,
-    name = name,
+    registry_name = registry_name,
+    registry_description = registry_description,
     classes = classes,
     output_function = output_function,
     render_function = render_function,
@@ -88,15 +90,27 @@ get_input.quosure <- function(x){
   x |> rlang::quo_text()
 }
 
-get_name <- function(x) UseMethod("get_name")
+get_registry_name <- function(x) UseMethod("get_registry_name")
 
 #' @export
-get_name.definition <- function(x){
-  get_attr(x, "input")
+get_registry_name.definition <- function(x){
+  get_attr(x, "registry_name")
 }
 
 #' @export
-get_name.quosure <- function(x){
+get_registry_name.quosure <- function(x){
+  x |> rlang::quo_text()
+}
+
+get_registry_description <- function(x) UseMethod("get_registry_description")
+
+#' @export
+get_registry_name.definition <- function(x){
+  get_attr(x, "registry_description")
+}
+
+#' @export
+get_registry_description.quosure <- function(x){
   x |> rlang::quo_text()
 }
 

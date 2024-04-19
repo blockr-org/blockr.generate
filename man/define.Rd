@@ -11,7 +11,8 @@ define(
   output = NULL,
   type = NULL,
   title = NULL,
-  name = NULL,
+  registry_name = NULL,
+  registry_description = NULL,
   description = NULL,
   classes = NULL,
   output_function = NULL,
@@ -32,7 +33,7 @@ define(
 
 \item{title, description}{Title and description of field.}
 
-\item{name}{Name in of the block in the registry.}
+\item{registry_name, registry_description}{Name and description in of the block in the registry.}
 
 \item{classes}{Additional classes.}
 
