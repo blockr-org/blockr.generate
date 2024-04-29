@@ -181,7 +181,7 @@ block_combiner.%s_block <- %s",
     out <- sprintf(
       "#' @method download_ui %s_block
 #' @export
-generate_server.%s_block <- %s",
+download_ui.%s_block <- %s",
       fn,
       fn,
       deparse_(download_ui)
@@ -197,9 +197,9 @@ generate_server.%s_block <- %s",
   download_server <- get_download_server(def) %||% get_download_server(all_args)
   if(length(download_ui)){
     out <- sprintf(
-      "#' @method download_server %s_block
+      "#' @method download %s_block
 #' @export
-generate_server.%s_block <- %s",
+download.%s_block <- %s",
       fn,
       fn,
       deparse_(download_ui)
