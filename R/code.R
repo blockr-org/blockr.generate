@@ -176,6 +176,42 @@ block_combiner.%s_block <- %s",
     )
   }
 
+  download_ui <- get_download_ui(def) %||% get_download_ui(all_args)
+  if(length(download_ui)){
+    out <- sprintf(
+      "#' @method download_ui %s_block
+#' @export
+generate_server.%s_block <- %s",
+      fn,
+      fn,
+      deparse_(download_ui)
+    )
+
+    block <- paste0(
+      block,
+      "\n\n",
+      out 
+    )
+  }
+
+  download_server <- get_download_server(def) %||% get_download_server(all_args)
+  if(length(download_ui)){
+    out <- sprintf(
+      "#' @method download_server %s_block
+#' @export
+generate_server.%s_block <- %s",
+      fn,
+      fn,
+      deparse_(download_ui)
+    )
+
+    block <- paste0(
+      block,
+      "\n\n",
+      out 
+    )
+  }
+
   register <- sprintf(
     "
   blockr::register_block(

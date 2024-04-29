@@ -14,6 +14,7 @@
 #' @param block_combiner Function to combine blocks.
 #' @param generate_server_function Function to generate server function.
 #' @param title,description Title and description of field.
+#' @param download_ui,download_server Download UI and Server methods.
 #' 
 #' @export
 define <- function(
@@ -31,7 +32,9 @@ define <- function(
   render_function = NULL,
   evaluate_function = NULL,
   block_combiner = NULL,
-  generate_server_function = NULL
+  generate_server_function = NULL,
+  download_ui = NULL,
+  download_server = NULL
 ){
   structure(
     rlang::enquos(...),
@@ -47,6 +50,8 @@ define <- function(
     evaluate_function = evaluate_function,
     generate_server_function = generate_server_function,
     block_combiner = block_combiner,
+    download_ui = download_ui,
+    download_server = download_server,
     class = "definition"
   )
 }
@@ -239,4 +244,28 @@ get_description.definition <- function(x){
 #' @export
 get_description.default <- function(x){
   ""
+}
+
+get_download_ui <- function(x) UseMethod("get_download_ui")
+
+#' @export
+get_download_ui.definition <- function(x){
+  get_attr(x, "download_ui")
+}
+
+#' @export
+get_download_ui.quosure <- function(x){
+  x
+}
+
+get_download_server <- function(x) UseMethod("get_download_server")
+
+#' @export
+get_download_server.definition <- function(x){
+  get_attr(x, "download_server")
+}
+
+#' @export
+get_download_server.quosure <- function(x){
+  x
 }

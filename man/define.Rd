@@ -19,7 +19,9 @@ define(
   render_function = NULL,
   evaluate_function = NULL,
   block_combiner = NULL,
-  generate_server_function = NULL
+  generate_server_function = NULL,
+  download_ui = NULL,
+  download_server = NULL
 )
 }
 \arguments{
@@ -46,6 +48,8 @@ define(
 \item{block_combiner}{Function to combine blocks.}
 
 \item{generate_server_function}{Function to generate server function.}
+
+\item{download_ui, download_server}{Download UI and Server methods.}
 }
 \description{
 Define a function or argument for processing.
