@@ -15,10 +15,16 @@ argument_to_field <- function(fields, function_definition, all_args){ # nolint
       desc <- get_description(def)
 
       if(inherits(x, "character") || inherits(x, "factor") && l > 1){
+        opts <- paste0(x, collapse = "', '")
+        opts <- paste0("c('", opts, "')")
+
         return(
           sprintf(
-            "blockr::new_string_field(\"%s\", title = \"%s\", description = \"%s\")", 
-            x, title = title, description = desc
+            "blockr::new_select_field(\"%s\", %s, title = \"%s\", description = \"%s\")", 
+            x[1],
+            opts,
+            title = title, 
+            description = desc
           )
         )
       }
