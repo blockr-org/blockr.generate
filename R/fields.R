@@ -9,10 +9,14 @@ argument_to_field <- function(fields, function_definition, all_args){ # nolint
       fn_def <- get_definition(function_definition, nms[i])
       arg_def <- get_definition(all_args, nms[i])
       def <- fn_def %||% arg_def
-      i <<- i + 1L
 
       title <- get_title(def)
       desc <- get_description(def)
+
+      if(title == "")
+        title <- nms[i]
+
+      i <<- i + 1L
 
       if(inherits(x, "call")){
         called <- tryCatch(
