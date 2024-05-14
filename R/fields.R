@@ -14,7 +14,17 @@ argument_to_field <- function(fields, function_definition, all_args){ # nolint
       title <- get_title(def)
       desc <- get_description(def)
 
-      if(inherits(x, "character") || inherits(x, "factor") && l > 1){
+      if(inherits(x, "call")){
+        called <- tryCatch(
+          eval(x),
+          error = \(e) e
+        )
+
+        if(!inherits(called, "error"))
+           x <- called
+      }
+
+      if((inherits(x, "character") || inherits(x, "factor"))&& l > 1){
         opts <- paste0(x, collapse = "', '")
         opts <- paste0("c('", opts, "')")
 
