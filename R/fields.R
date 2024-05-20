@@ -44,7 +44,7 @@ argument_to_field <- function(fields, function_definition, all_args){ # nolint
         return(
           sprintf(
             "blockr::new_numeric_field(%s, min = %s, max = %s, title = \"%s\", description = \"%s\")", 
-            x, min(x), max(x), title = title, description = desc
+            x[1], min(x), max(x), title = title, description = desc
           )
         )
       }
@@ -53,7 +53,7 @@ argument_to_field <- function(fields, function_definition, all_args){ # nolint
         return(
           sprintf(
             "blockr::new_switch_field(%s, title = \"%s\", description = \"%s\")", 
-            x, title = title, description = desc
+            x[1], title = title, description = desc
           )
         )
       }
@@ -62,7 +62,7 @@ argument_to_field <- function(fields, function_definition, all_args){ # nolint
         return(
           sprintf(
             "blockr::new_numeric_field(%s, -1000, 1000, title = \"%s\", description = \"%s\")", 
-            x, title = title, description = desc
+            x[1], title = title, description = desc
           )
         )
       }
