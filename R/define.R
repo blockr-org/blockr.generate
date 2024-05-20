@@ -231,7 +231,7 @@ get_title.definition <- function(x){
 
 #' @export
 get_title.default <- function(x){
-  ""
+  NULL
 }
 
 get_description <- function(x) UseMethod("get_description")
