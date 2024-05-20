@@ -67,6 +67,15 @@ argument_to_field <- function(fields, function_definition, all_args){ # nolint
         )
       }
 
+      if(is.character(x) || is.factor(x)){
+        return(
+          sprintf(
+            "blockr::new_string_field(\"%s\", title = \"%s\", description = \"%s\")", 
+            x[1], title = title, description = desc
+          )
+        )
+      }
+
       if(is.null(x))
         return(NULL)
 
