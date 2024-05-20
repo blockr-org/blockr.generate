@@ -10,11 +10,8 @@ argument_to_field <- function(fields, function_definition, all_args){ # nolint
       arg_def <- get_definition(all_args, nms[i])
       def <- fn_def %||% arg_def
 
-      title <- get_title(def)
+      title <- get_title(def) %||% nms[i]
       desc <- get_description(def)
-
-      if(title == "")
-        title <- nms[i]
 
       i <<- i + 1L
 
@@ -28,7 +25,7 @@ argument_to_field <- function(fields, function_definition, all_args){ # nolint
            x <- called
       }
 
-      if((inherits(x, "character") || inherits(x, "factor"))&& l > 1){
+      if((inherits(x, "character") || inherits(x, "factor")) && l > 1){
         opts <- paste0(x, collapse = "', '")
         opts <- paste0("c('", opts, "')")
 
