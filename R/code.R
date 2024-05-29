@@ -44,9 +44,9 @@ make_code <- function(
   if(length(package) > 0L)
     expr <- paste0(package, "::", expr)
 
-  code <- sprintf(
+  block <- sprintf(
     "#' @import blockr
-new_%s_block <- function(data, ...){
+new_%s_block <- function(...){
   blockr::new_block(
     name = \"%s_block\",
     expr = quote(
@@ -64,27 +64,6 @@ new_%s_block <- function(data, ...){
     fields,
     classes
   )
-
-  init <- sprintf(
-    "#' @export
-%s_block <- function(data, ...){
-  blockr::initialize_block(new_%s_block(data, ...), data)
-}", 
-    fn, 
-    fn
-  )
-
-  if("data" %in% c(get_type(def), get_type(config))){
-    init <- sprintf(
-      "%s_block <- function(...){
-  blockr::initialize_block(new_%s_block(...))
-}", 
-      fn, 
-      fn
-    )
-  }
-
-  block <- paste0(code, "\n\n", init)
 
   render_function <- get_render_function(def) %||% get_render_function(all_args)
   if(length(render_function)){

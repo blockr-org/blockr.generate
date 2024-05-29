@@ -4,7 +4,7 @@
 #' 
 #' @param ... Named arguments to define.
 #' @param ignore Whether to ignore the arguments from fields and function call.
-#' @param input,output Object accepted as I/O.
+#' @param registry_input,registry_output Object accepted as I/O to generate the block registration.
 #' @param type Block type, used for inheritance.
 #' @param registry_name,registry_description Name and description in of the block in the registry.
 #' @param classes Additional classes.
@@ -20,8 +20,8 @@
 define <- function(
   ..., 
   ignore = FALSE, 
-  input = NULL, 
-  output = NULL,
+  registry_input = NULL, 
+  registry_output = NULL,
   type = NULL,
   title = NULL,
   registry_name = NULL,
@@ -39,8 +39,8 @@ define <- function(
   structure(
     rlang::enquos(...),
     ignore = ignore,
-    input = input,
-    output = output,
+    input = registry_input,
+    output = registry_output,
     type = type,
     registry_name = registry_name,
     registry_description = registry_description,
