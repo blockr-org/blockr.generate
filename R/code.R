@@ -46,7 +46,7 @@ make_code <- function(
 
   block <- sprintf(
     "#' @import blockr
-new_%s_block <- function(...){
+%s_block <- function(...){
   blockr::new_block(
     name = \"%s_block\",
     expr = quote(
@@ -205,8 +205,8 @@ download.%s_block <- %s",
     fn,
     get_registry_name(def) %||% fn,
     get_registry_description(def) %||% "A block",
-    get_input(def) %||% get_input(all_args),
-    get_output(def) %||% get_output(all_args),
+    get_registry_input(def) %||% get_registry_input(all_args),
+    get_registry_output(def) %||% get_registry_output(all_args),
     classes
   )
 

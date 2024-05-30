@@ -39,8 +39,8 @@ define <- function(
   structure(
     rlang::enquos(...),
     ignore = ignore,
-    input = registry_input,
-    output = registry_output,
+    registry_input = registry_input,
+    registry_output = registry_output,
     type = type,
     registry_name = registry_name,
     registry_description = registry_description,
@@ -83,15 +83,15 @@ should_ignore.definition <- function(x){
   attr(x, "ignore")
 }
 
-get_input <- function(x) UseMethod("get_input")
+get_registry_input <- function(x) UseMethod("get_registry_input")
 
 #' @export
-get_input.definition <- function(x){
-  get_attr(x, "input")
+get_registry_input.definition <- function(x){
+  get_attr(x, "registry_input")
 }
 
 #' @export
-get_input.quosure <- function(x){
+get_registry_input.quosure <- function(x){
   x |> rlang::quo_text()
 }
 
@@ -119,15 +119,15 @@ get_registry_description.quosure <- function(x){
   x |> rlang::quo_text()
 }
 
-get_output <- function(x) UseMethod("get_output")
+get_registry_output <- function(x) UseMethod("get_registry_output")
 
 #' @export
-get_output.definition <- function(x){
-  get_attr(x, "output")
+get_registry_output.definition <- function(x){
+  get_attr(x, "registry_output")
 }
 
 #' @export
-get_output.quosure <- function(x){
+get_registry_output.quosure <- function(x){
   x |> rlang::quo_text()
 }
 

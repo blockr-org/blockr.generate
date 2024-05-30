@@ -7,8 +7,8 @@
 define(
   ...,
   ignore = FALSE,
-  input = NULL,
-  output = NULL,
+  registry_input = NULL,
+  registry_output = NULL,
   type = NULL,
   title = NULL,
   registry_name = NULL,
@@ -29,7 +29,7 @@ define(
 
 \item{ignore}{Whether to ignore the arguments from fields and function call.}
 
-\item{input, output}{Object accepted as I/O.}
+\item{registry_input, registry_output}{Object accepted as I/O to generate the block registration.}
 
 \item{type}{Block type, used for inheritance.}
 
